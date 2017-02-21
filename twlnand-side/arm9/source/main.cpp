@@ -113,7 +113,8 @@ std::string ReplaceAll(std::string str, const std::string& from, const std::stri
 int main(int argc, char **argv) {
 //---------------------------------------------------------------------------------
 	// REG_SCFG_CLK = 0x80;
-	REG_SCFG_CLK = 0x85;
+	// New libnds already sets this
+	// REG_SCFG_CLK = 0x85;
 
 	bool HealthandSafety_MSG = true;
 	bool UseNTRSplash = true;
@@ -213,7 +214,8 @@ int main(int argc, char **argv) {
 			consoleOn = true;
 		}
 		if(TWLCLK) {
-			REG_SCFG_CLK |= 0x1;
+			// New libnds already sets TWL clock speeds at boot.
+			// REG_SCFG_CLK |= 0x1;
 			if (logEnabled)	LogFM("TWL.Main", "ARM9 CPU Speed set to 133mhz(TWL)");
 			if(twloaderini.GetInt("TWL-MODE","DEBUG",0) == 1) {
 				printf("TWL_CLOCK ON\n");		

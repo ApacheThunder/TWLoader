@@ -128,7 +128,10 @@ dist:	all
 	@tar -cvjf hbmenu-$(VERSION).tar.bz2 TWLapp-hb testfiles README.md COPYING -X exclude.lst
 	
 $(TARGET).nds:	$(TARGET).arm7 $(TARGET).arm9
-	ndstool	-c $(TARGET).nds -7 $(TARGET).arm7.elf -9 $(TARGET).arm9.elf -b icon.bmp "TWLoader;TWL-MODE app;Robz8" -g TWLD 01 "TWLOADER-TWL" -z 80040000 -u 00030005
+	ndstool	-c $(TARGET).nds -7 $(TARGET).arm7.elf -9 $(TARGET).arm9.elf \
+			-b icon.bmp "TWLoader;TWL-MODE app;Robz8" \
+			-g TWLD 01 "TWLOADER-TWL" -z 80040000 -u 00030005
+	python patch_ndsheader_dsiware.py $(CURDIR)/$(TARGET).nds
 
 $(TARGET).arm7: arm7/$(TARGET).elf
 	cp arm7/$(TARGET).elf $(TARGET).arm7.elf
@@ -152,7 +155,7 @@ arm9/$(TARGET).elf:
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).arm9 data
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(TARGET).nds.orig.nds $(TARGET).arm9 data
 	@$(MAKE) -C bootloader clean
 	@$(MAKE) -C bootstub clean
 	$(MAKE) -C arm9 clean
